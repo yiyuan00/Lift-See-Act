@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lift, See, Act: Hierarchical Robot Policy Pretraining with 3D Foundation Models. Accepted at NeurIPS 2026.">
+  <meta name="theme-color" content="#0b1020">
+  <title>Lift, See, Act | NeurIPS 2026</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b1020'/%3E%3Cpath d='M17 42V18h7v18h10v6H17zm20 0V18h7v24h-7z' fill='%23ff7a3d'/%3E%3Ccircle cx='45' cy='18' r='6' fill='%232bc4d8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="scroll-progress"></span></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="LSA home">
+      <span class="brand-mark">LSA</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#method">Method</a>
+      <a href="#videos">Videos</a>
+      <a href="#citation">Citation</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-glow glow-a"></div>
+      <div class="hero-glow glow-b"></div>
+      <div class="hero-inner reveal">
+        <div class="venue"><span></span> NeurIPS 2026</div>
+        <h1>
+          <span class="kinetic-title" aria-label="Lift, See, Act">
+            <span class="jump-word lift">Lift</span><span class="comma">,</span>
+            <span class="jump-word see">See</span><span class="comma">,</span>
+            <span class="jump-word act">Act</span><span class="colon">:</span>
+          </span>
+          <span class="paper-title">Hierarchical Robot Policy Pretraining<br class="desktop-break"> with 3D Foundation Models</span>
+        </h1>
+
+        <div class="authors" aria-label="Authors">
+          <span>Yiyuan Ge</span>
+          <span>Changxing Ding<sup>✉</sup></span>
+          <span>Ziyu Hao</span>
+          <span>Zijie Zheng</span>
+          <span>Xiangmin Xu</span>
+        </div>
+        <p class="affiliation">South China University of Technology</p>
+        <p class="corresponding"><sup>✉</sup> Corresponding author</p>
+
+        <div class="hero-actions">
+          <a class="button primary" href="assets/lsa-paper.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg>
+            Paper PDF
+          </a>
+          <a class="button secondary" href="#videos">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 7 8 5-8 5V7Z"/></svg>
+            Watch demos
+          </a>
+          <a class="button ghost" id="github-link" href="https://github.com/yiyuan00/Lift-See-Act" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.9c-2.78.61-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.99a9.6 9.6 0 0 1 2.5.34c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.59c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <a class="scroll-cue" href="#abstract" aria-label="Scroll to abstract">
+        <span>Explore</span><i></i>
+      </a>
+    </section>
+
+    <section class="section abstract-section" id="abstract">
+      <div class="section-grid">
+        <div class="section-label reveal"><span>01</span> Abstract</div>
+        <div class="section-content reveal">
+          <p class="lead">Learning robot policies from human video is powerful, but video alone does not expose the action-relevant 3D structure a robot needs.</p>
+          <p>We introduce <strong>LSA</strong>, a hierarchical robot policy pretraining framework organized around three phases: <em>Lift</em>, <em>See</em>, and <em>Act</em>. Lift aligns shallow policy features with dense intermediate representations from multiple 3D foundation models. See builds explicit geometric and interactive awareness through depth reconstruction and hand-region guidance. Act turns these representations into robust 3D motion prediction for closed-loop manipulation. Experiments across simulation and real-world tasks show consistent gains over prior approaches.</p>
+
+          <div class="metrics" aria-label="Project highlights">
+            <div class="metric"><strong>3</strong><span>hierarchical phases</span></div>
+            <div class="metric"><strong>68.3%</strong><span>average real-world success</span></div>
+            <div class="metric"><strong>4</strong><span>real-world tasks</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method-section" id="method">
+      <div class="section-grid">
+        <div class="section-label reveal"><span>02</span> Method</div>
+        <div class="section-content">
+          <h2 class="reveal">From human video to robot action,<br>one level of structure at a time.</h2>
+
+          <div class="phase-list">
+            <article class="phase-card lift-card reveal">
+              <div class="phase-number">01</div>
+              <h3>Lift</h3>
+              <p>Elevate 2D video observations into dense 3D representations by aligning policy features with multiple frozen 3D foundation models.</p>
+            </article>
+            <article class="phase-card see-card reveal">
+              <div class="phase-number">02</div>
+              <h3>See</h3>
+              <p>Build geometric and interaction awareness through depth reconstruction and attention guidance from human hand regions.</p>
+            </article>
+            <article class="phase-card act-card reveal">
+              <div class="phase-number">03</div>
+              <h3>Act</h3>
+              <p>Predict precise 3D hand motion trajectories and transfer the learned motion priors to robust closed-loop robot control.</p>
+            </article>
+          </div>
+
+          <figure class="figure-panel reveal">
+            <img src="assets/architecture.png" alt="Architecture overview of the Lift, See, Act framework" loading="lazy">
+            <figcaption>LSA unifies data generation, hierarchical pretraining, and closed-loop control.</figcaption>
+          </figure>
+
+          <div class="detail-grid">
+            <figure class="detail-card reveal">
+              <img src="assets/guidance.png" alt="Visualization of attentive guidance on human videos and robotic scenes" loading="lazy">
+              <figcaption><strong>Interaction-aware attention.</strong> Hand cues focus the representation on task-relevant regions.</figcaption>
+            </figure>
+            <figure class="detail-card reveal">
+              <img src="assets/real-world-overview.png" alt="Real-world robot setup, demonstrations, and out-of-distribution tasks" loading="lazy">
+              <figcaption><strong>Real-world evaluation.</strong> Franka manipulation across in-distribution and unseen settings.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section video-section" id="videos">
+      <div class="section-grid">
+        <div class="section-label reveal"><span>03</span> Robot demos</div>
+        <div class="section-content">
+          <div class="video-heading reveal">
+            <h2>Real-world manipulation</h2>
+            <p>Six demonstrations, including unseen towel-color variants for the wiping task.</p>
+          </div>
+
+          <div class="video-grid">
+            <article class="video-card reveal featured">
+              <video controls muted loop playsinline preload="metadata">
+                <source src="assets/videos/wipe_pc.mp4" type="video/mp4">
+              </video>
+              <div class="video-meta"><span>01</span><h3>Wipe PC</h3><p>In-distribution</p></div>
+            </article>
+            <article class="video-card reveal">
+              <video controls muted loop playsinline preload="metadata">
+                <source src="assets/videos/pluck_flower.mp4" type="video/mp4">
+              </video>
+              <div class="video-meta"><span>02</span><h3>Pluck Flower</h3><p>Real-world</p></div>
+            </article>
+            <article class="video-card reveal">
+              <video controls muted loop playsinline preload="metadata">
+                <source src="assets/videos/pick_trash.mp4" type="video/mp4">
+              </video>
+              <div class="video-meta"><span>03</span><h3>Pick Trash</h3><p>Real-world</p></div>
+            </article>
+            <article class="video-card reveal">
+              <video controls muted loop playsinline preload="metadata">
+                <source src="assets/videos/place_toy.mp4" type="video/mp4">
+              </video>
+              <div class="video-meta"><span>04</span><h3>Place Toy</h3><p>Real-world</p></div>
+            </article>
+            <article class="video-card reveal">
+              <video controls muted loop playsinline preload="metadata">
+                <source src="assets/videos/wipe_pc_unseen_1.mp4" type="video/mp4">
+              </video>
+              <div class="video-meta"><span>05</span><h3>Wipe PC · U1</h3><p>Unseen towel color</p></div>
+            </article>
+            <article class="video-card reveal">
+              <video controls muted loop playsinline preload="metadata">
+                <source src="assets/videos/wipe_pc_unseen_2.mp4" type="video/mp4">
+              </video>
+              <div class="video-meta"><span>06</span><h3>Wipe PC · U2</h3><p>Unseen towel color</p></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section citation-section" id="citation">
+      <div class="section-grid">
+        <div class="section-label reveal"><span>04</span> Citation</div>
+        <div class="section-content reveal">
+          <div class="citation-header">
+            <h2>BibTeX</h2>
+            <button class="copy-button" id="copy-citation" type="button">Copy citation</button>
+          </div>
+          <pre><code id="bibtex">@inproceedings{ge2026lift,
+  title     = {Lift, See, Act: Hierarchical Robot Policy Pretraining
+               with 3D Foundation Models},
+  author    = {Ge, Yiyuan and Ding, Changxing and Hao, Ziyu and
+               Zheng, Zijie and Xu, Xiangmin},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>Lift, See, Act</strong> · NeurIPS 2026</p>
+    <p>South China University of Technology</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
