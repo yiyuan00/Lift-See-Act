@@ -5,7 +5,6 @@ body {
   background: #fff;
   font-family: "Noto Sans", sans-serif;
 }
-
 .hero-body {
   padding-top: 2.4rem;
   padding-bottom: 2.5rem;
@@ -74,10 +73,6 @@ body {
 
 .author-name {
   color: hsl(204, 86%, 53%);
-}
-
-.author-name:hover {
-  text-decoration: underline;
 }
 
 .author-note {
@@ -247,13 +242,5 @@ body {
 
   .bibtex-block {
     padding: 0 1rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .word1,
-  .word2,
-  .word3 {
-    animation: none;
   }
 }
