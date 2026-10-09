@@ -6,10 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const confettiLayer = document.querySelector(".reviewer-confetti");
   let celebrationActive = false;
   reviewerTrophy?.addEventListener("click", () => {
+    if (!confettiLayer || celebrationActive) return;
     reviewerTrophy.classList.add("is-stopped");
     reviewerTrophy.setAttribute("aria-pressed", "true");
-    reviewerTrophy.title = "Congrats! Click for more confetti.";
-    if (!confettiLayer || celebrationActive) return;
+    reviewerTrophy.title = "Congrats! Moving again after the confetti.";
     celebrationActive = true;
     const colors = ["#ef767a", "#3e9fbd", "#9a6bb8", "#e8bb50", "#86bd91"];
     const pieceCount = reduceMotion ? 12 : 44;
@@ -35,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setTimeout(() => {
       confettiLayer.replaceChildren();
       celebrationActive = false;
+      reviewerTrophy.classList.remove("is-stopped");
+      reviewerTrophy.setAttribute("aria-pressed", "false");
+      reviewerTrophy.title = "Click to pause and celebrate!";
     }, reduceMotion ? 1000 : 4500);
   });
 

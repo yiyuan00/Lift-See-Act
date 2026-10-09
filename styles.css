@@ -26,9 +26,9 @@ a { color: #1684aa; }
 .hero { position: relative; background: radial-gradient(circle at 50% -20%, #f5fbfd 0, #fff 48%); }
 .hero-body { padding: 2.8rem 1rem 2.2rem; }
 
-/* A tiny DVD-style trophy in the existing top padding; no layout changes. */
-.reviewer-playground { position: absolute; inset: 0 0 auto; z-index: 6; height: 40px; overflow: hidden; pointer-events: none; }
-.reviewer-trophy { position: absolute; top: 4px; left: 12px; display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border: 1px solid #eedbad; border-radius: 999px; background: #fffaf0; color: #88631f; font-family: inherit; font-size: 12px; font-weight: 600; line-height: 18px; white-space: nowrap; box-shadow: 0 2px 8px rgba(165, 122, 31, .08); animation: reviewer-bounce 70s linear infinite; will-change: transform; cursor: pointer; pointer-events: auto; }
+/* A playful trophy in the existing top padding; no layout changes. */
+.reviewer-playground { position: absolute; inset: 0 0 auto; z-index: 6; height: 44px; overflow: hidden; pointer-events: none; }
+.reviewer-trophy { --reviewer-hop: 3px; position: absolute; top: 2px; left: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px; border: 1px solid #eedbad; border-radius: 999px; background: #fffaf0; color: #88631f; font-family: inherit; font-size: 16px; font-weight: 700; line-height: 22px; white-space: nowrap; box-shadow: 0 2px 8px rgba(165, 122, 31, .08); animation: reviewer-bounce 70s linear infinite; will-change: transform; cursor: pointer; pointer-events: auto; }
 .reviewer-trophy:focus-visible { outline: 2px solid #d3a94c; outline-offset: 2px; }
 .reviewer-trophy.is-stopped, .reviewer-trophy.is-stopped .reviewer-spark { animation-play-state: paused; }
 .reviewer-confetti { position: absolute; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; }
@@ -42,15 +42,15 @@ a { color: #1684aa; }
 .reviewer-spark { color: #d3a94c; animation: reviewer-twinkle 2.4s ease-in-out infinite; }
 @keyframes reviewer-bounce {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(-1deg); }
-  12.5%, 87.5% { transform: translate3d(calc(25vw - 25% - 6px), 7px, 0); }
+  12.5%, 87.5% { transform: translate3d(calc(25vw - 25% - 6px), var(--reviewer-hop), 0); }
   25%, 75% { transform: translate3d(calc(50vw - 50% - 12px), 0, 0) rotate(1deg); }
-  37.5%, 62.5% { transform: translate3d(calc(75vw - 75% - 18px), 7px, 0); }
+  37.5%, 62.5% { transform: translate3d(calc(75vw - 75% - 18px), var(--reviewer-hop), 0); }
   50% { transform: translate3d(calc(100vw - 100% - 24px), 0, 0) rotate(-1deg); }
 }
 @keyframes reviewer-twinkle { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
 @media screen and (max-width: 768px) {
   .reviewer-playground { height: 32px; }
-  .reviewer-trophy { top: 2px; padding: 1px 6px; gap: 4px; font-size: 10px; line-height: 16px; }
+  .reviewer-trophy { --reviewer-hop: 0px; top: 2px; padding: 2px 8px; gap: 5px; font-size: 12px; line-height: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .reviewer-trophy { animation: none; left: auto; right: 12px; will-change: auto; }
