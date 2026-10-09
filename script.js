@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lazyVideos.forEach(loadVideo);
   }
 
-  document.querySelectorAll("video").forEach((video) => {
+  document.querySelectorAll(".demo-item video").forEach((video) => {
     video.addEventListener("click", () => {
       if (video.paused) {
         video.play().catch(() => {});
