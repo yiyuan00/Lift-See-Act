@@ -2,6 +2,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const revealItems = [...document.querySelectorAll("[data-reveal]")];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const reviewerTrophy = document.querySelector(".reviewer-trophy");
+  const confettiLayer = document.querySelector(".reviewer-confetti");
+  let celebrationActive = false;
+  reviewerTrophy?.addEventListener("click", () => {
+    reviewerTrophy.classList.add("is-stopped");
+    reviewerTrophy.setAttribute("aria-pressed", "true");
+    reviewerTrophy.title = "Congrats! Click for more confetti.";
+    if (!confettiLayer || celebrationActive) return;
+    celebrationActive = true;
+    const colors = ["#ef767a", "#3e9fbd", "#9a6bb8", "#e8bb50", "#86bd91"];
+    const pieceCount = reduceMotion ? 12 : 44;
+    confettiLayer.style.setProperty("--fall-height", `${confettiLayer.clientHeight + 60}px`);
+    const pieces = document.createDocumentFragment();
+    for (let index = 0; index < pieceCount; index += 1) {
+      const piece = document.createElement("span");
+      piece.className = "reviewer-confetti-piece";
+      if (index % 8 === 0) {
+        piece.classList.add("reviewer-confetti-flower");
+        piece.textContent = "🌸";
+      }
+      piece.style.left = `${((index + Math.random()) / pieceCount) * 100}%`;
+      piece.style.backgroundColor = colors[index % colors.length];
+      piece.style.setProperty("--fall-duration", `${2.5 + Math.random() * 1.1}s`);
+      piece.style.setProperty("--fall-delay", `${Math.random() * .7}s`);
+      piece.style.setProperty("--fall-drift", `${Math.random() * 100 - 50}px`);
+      piece.style.setProperty("--fall-spin", `${Math.random() * 720 - 360}deg`);
+      piece.addEventListener("animationend", () => piece.remove(), { once: true });
+      pieces.appendChild(piece);
+    }
+    confettiLayer.replaceChildren(pieces);
+    window.setTimeout(() => {
+      confettiLayer.replaceChildren();
+      celebrationActive = false;
+    }, reduceMotion ? 1000 : 4500);
+  });
+
   if (reduceMotion || !("IntersectionObserver" in window)) {
     revealItems.forEach((item) => item.classList.add("is-visible"));
   } else {
