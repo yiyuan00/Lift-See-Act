@@ -8,17 +8,22 @@
   <meta name="theme-color" content="#ffffff">
   <title>Lift, See, Act: Hierarchical Robot Policy Pretraining with 3D Foundation Models</title>
 
-  <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Shantell+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,500,600,700,800|Shantell+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    window.MathJax = {tex: {inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']]}, svg: {fontCache: 'global'}};
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
 
-<section class="hero">
+<header class="hero" id="top">
   <div class="hero-body">
     <div class="columns is-centered">
       <div class="column has-text-centered">
+        <div class="venue-pill"><i class="fa-solid fa-award"></i> NeurIPS 2026</div>
         <h1 class="title is-1 publication-title">
           <span class="word1 shakefont lift-word">Lift</span><span class="title-punctuation">,</span>
           <span class="word2 shakefont see-word">See</span><span class="title-punctuation">,</span>
@@ -33,207 +38,227 @@
           <span class="author-block author-name">Zijie Zheng</span>,
           <span class="author-block author-name">Xiangmin Xu</span>
         </div>
+        <div class="is-size-5 publication-authors author-note"><sup>†</sup> corresponding author</div>
+        <div class="is-size-5 publication-authors affiliations">South China University of Technology</div>
 
-        <div class="is-size-5 publication-authors author-note">
-          <span class="author-block"><sup>†</sup> corresponding author</span>
-        </div>
-
-        <div class="is-size-5 publication-authors affiliations">
-          <span class="author-block">South China University of Technology</span>
-        </div>
-
-        <div class="publication-venue">NeurIPS 2026</div>
-
-        <div class="column has-text-centered">
-          <div class="publication-links">
-            <span class="link-block">
-              <a href="assets/lsa-paper.pdf" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                <span>Paper</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://github.com/yiyuan00/Lift-See-Act" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fab fa-github"></i></span>
-                <span>Code</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="#real-world-demo" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fas fa-play"></i></span>
-                <span>Demo</span>
-              </a>
-            </span>
-          </div>
+        <div class="publication-links">
+          <a href="assets/lsa-paper.pdf" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a>
+          <a href="https://github.com/yiyuan00/Lift-See-Act" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a>
+          <a href="#real-world-demo" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-play"></i></span><span>Demo</span></a>
         </div>
       </div>
     </div>
   </div>
+</header>
+
+<nav class="section-nav" aria-label="Page sections">
+  <a href="#overview">Overview</a><a href="#method">Method</a><a href="#evidence">Evidence</a><a href="#real-world-demo">Real Robot</a>
+</nav>
+
+<main>
+  <section class="section content-section" id="overview" data-reveal>
+    <div class="container is-max-desktop">
+      <div class="section-heading centered-heading">
+        <div class="section-icon icon-lift"><i class="fa-solid fa-cubes-stacked"></i></div>
+        <div><p class="eyebrow">Why LSA?</p><h2 class="title is-3">Learn more than a sparse trajectory</h2></div>
+      </div>
+      <ul class="key-points overview-points">
+        <li>Human videos are abundant, but they do not provide robot actions or explicit 3D structure.</li>
+        <li>Existing pipelines keep sparse hand trajectories and discard rich intermediate knowledge from 3D foundation models.</li>
+        <li><strong>LSA transfers dense geometry, interaction focus, and 3D motion</strong> into one reusable visual policy encoder.</li>
+      </ul>
+
+      <figure class="science-figure paper-figure comparison-paper-figure">
+        <div class="paper-source-crop comparison-source-crop">
+          <img src="assets/comparison-source.png" alt="Comparison between existing explicit methods and the Lift, See, Act framework">
+        </div>
+        <figcaption><span class="caption-dot"></span>LSA retains dense 3D representations, structural cues, attention guidance, and motion supervision.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section content-section soft-section" id="method" data-reveal>
+    <div class="container is-max-widescreen">
+      <div class="section-heading centered-heading">
+        <div class="section-icon icon-see"><i class="fa-solid fa-diagram-project"></i></div>
+        <div><p class="eyebrow">Main pipeline</p><h2 class="title is-3">One hierarchy, three stages</h2></div>
+      </div>
+      <ul class="key-points compact-points">
+        <li>The data engine lifts diverse human videos into reusable 3D supervision.</li>
+        <li>Hierarchical pretraining injects knowledge at the layer where it is most useful.</li>
+        <li>The frozen encoder then supports lightweight closed-loop robot control.</li>
+      </ul>
+
+      <figure class="science-figure paper-figure architecture-paper-figure">
+        <div class="paper-source-crop architecture-source-crop">
+          <img src="assets/architecture-source.png" alt="Full architecture of the LSA data engine, hierarchical pretraining, and closed-loop control pipeline">
+        </div>
+        <figcaption><span class="caption-dot"></span>Full LSA architecture: data engine, hierarchical pretraining, and closed-loop control.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section content-section" id="see-phase" data-reveal>
+    <div class="container is-max-widescreen">
+      <div class="section-heading split-heading">
+        <div>
+          <div class="novelty-badge"><i class="fa-solid fa-star"></i> Novel contribution highlighted by reviewers</div>
+          <p class="eyebrow">See phase</p>
+          <h2 class="title is-3">Dual guidance makes 3D knowledge actionable</h2>
+        </div>
+        <div class="section-icon icon-see"><i class="fa-solid fa-eye"></i></div>
+      </div>
+      <ul class="key-points compact-points left-points">
+        <li>Attentive guidance transfers the model's own strongest hand-object attention pattern to shallow layers.</li>
+        <li>Structural guidance reconstructs metric depth, turning implicit 3D features into explicit spatial understanding.</li>
+      </ul>
+      <figure class="science-figure attention-figure">
+        <div class="attention-crop"><img src="assets/attentive-guidance-source.png" alt="Attention maps focusing on hands, robot grippers, and manipulated objects"></div>
+        <figcaption><span class="caption-dot"></span>Human videos (left) and robot scenes (right). Top: with attentive guidance; bottom: without.</figcaption>
+      </figure>
+
+      <div class="formula-steps">
+        <article class="formula-step">
+          <div class="formula-step-index">1</div>
+          <div class="formula-step-body">
+            <h3>Build a soft hand prior</h3>
+            <div class="formula small-formula">\[\begin{aligned}q_k(x,y)&=\frac{(x-x_k)^2+(y-y_k)^2}{2\sigma^2}\\ H(x,y)&=\max_k\exp(-q_k)\\ h&=\operatorname{Softmax}(H/\tau)\end{aligned}\]</div>
+            <p>The 21 detected hand keypoints form a smooth spatial cue at patch resolution.</p>
+          </div>
+        </article>
+
+        <article class="formula-step">
+          <div class="formula-step-index">2</div>
+          <div class="formula-step-body">
+            <h3>Score the model's emerging attention</h3>
+            <div class="formula small-formula">\[s_{n,k}=\frac{1}{N_a}\sum_{i=1}^{N_a}a_{n,k,i}\,h_i\]</div>
+            <p>Each shallow head is measured by how well its CLS-to-patch attention overlaps the hand prior.</p>
+          </div>
+        </article>
+
+        <article class="formula-step">
+          <div class="formula-step-index">3</div>
+          <div class="formula-step-body">
+            <h3>Select—not prescribe—the target</h3>
+            <div class="formula small-formula">\[(n^*,k^*)=\arg\max_{n,k}s_{n,k},\qquad a^*=a_{n^*,k^*}\]</div>
+            <p>The hand cue chooses the best internally emerged attention map rather than replacing attention with a heatmap.</p>
+          </div>
+        </article>
+
+        <article class="formula-step">
+          <div class="formula-step-index">4</div>
+          <div class="formula-step-body">
+            <h3>Self-distill across shallow layers</h3>
+            <div class="formula small-formula">\[\begin{aligned}\tilde a^*&=\phi(\operatorname{sg}(a^*)),\quad \tilde a_n=\phi(\bar a_n)\\ \mathcal{L}_{\mathrm{att}}&=\sum_{n=1}^{R}\left\|\tilde a^*-\tilde a_n\right\|_2^2\end{aligned}\]</div>
+            <p>Here, \(\bar a_n\) averages attention heads, \(\phi\) applies Min-Max normalization, and \(\operatorname{sg}\) stops gradients. Guidance covers the first \(R=6\) layers after a 10-epoch motion-planning warm-up.</p>
+          </div>
+        </article>
+
+        <article class="formula-step structural-step">
+          <div class="formula-step-index">5</div>
+          <div class="formula-step-body">
+            <h3>Add explicit structural guidance</h3>
+            <div class="formula small-formula">\[\begin{aligned}\hat D&=\operatorname{Dec}(X_m)\\ \mathcal{L}_{\mathrm{recon}}&=\left\|\hat D-D^g\right\|_2^2\end{aligned}\]</div>
+            <p>A transformer decoder reconstructs metric depth from intermediate policy tokens, constraining the encoder to retain scene structure.</p>
+          </div>
+        </article>
+      </div>
+
+      <aside class="insight-panel">
+        <div class="insight-title"><i class="fa-solid fa-lightbulb"></i> Insight</div>
+        <ul class="key-points">
+          <li><strong>The hand prior is only a selector.</strong> The supervision target comes from the model itself, so it can retain object context and head diversity.</li>
+          <li><strong>Motion creates interaction awareness.</strong> Predicting future hand motion couples the hand with the manipulated object, allowing attention to extend beyond the hand and transfer to robot scenes.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section content-section soft-section" id="evidence" data-reveal>
+    <div class="container is-max-widescreen">
+      <div class="section-heading centered-heading">
+        <div class="section-icon icon-act"><i class="fa-solid fa-chart-line"></i></div>
+        <div><p class="eyebrow">Key evidence</p><h2 class="title is-3">The hierarchy improves accuracy and robustness</h2></div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-card"><span class="metric-value">92.2%</span><span class="metric-label">MetaWorld ablation average</span></div>
+        <div class="metric-card"><span class="metric-value">+18.9</span><span class="metric-label">points over no pretraining</span></div>
+        <div class="metric-card"><span class="metric-value">68.3%</span><span class="metric-label">real-world average success</span></div>
+        <div class="metric-card"><span class="metric-value">60%</span><span class="metric-label">data needed to match baseline peak</span></div>
+      </div>
+
+      <div class="scaling-grid">
+        <article class="chart-card">
+          <div class="chart-heading"><div><p class="eyebrow">Human-video pretraining</p><h3>More pretraining data keeps helping</h3></div><span class="chart-trend"><i class="fa-solid fa-arrow-trend-up"></i> +9 pts</span></div>
+          <svg class="scaling-chart" viewBox="0 0 620 300" role="img" aria-labelledby="pretrain-chart-title pretrain-chart-desc">
+            <title id="pretrain-chart-title">Pretraining data scaling</title><desc id="pretrain-chart-desc">Success rate rises from 83.8 percent at 25 percent data to 92.8 percent at 110 percent data.</desc>
+            <g class="grid-lines"><line x1="70" y1="45" x2="585" y2="45"/><line x1="70" y1="105" x2="585" y2="105"/><line x1="70" y1="165" x2="585" y2="165"/><line x1="70" y1="225" x2="585" y2="225"/><line x1="70" y1="255" x2="585" y2="255"/></g>
+            <g class="axis-labels"><text x="44" y="49">94</text><text x="44" y="109">90</text><text x="44" y="169">86</text><text x="44" y="229">82</text><text x="44" y="259">80</text><text x="70" y="280">25%</text><text x="213" y="280">50%</text><text x="354" y="280">75%</text><text x="493" y="280">100%</text></g>
+            <polyline class="ours-line" points="88,198 230,175.5 372,138 515,72 556,63"/><g class="ours-points"><circle cx="88" cy="198" r="7"/><circle cx="230" cy="175.5" r="7"/><circle cx="372" cy="138" r="7"/><circle cx="515" cy="72" r="7"/><circle cx="556" cy="63" r="7"/></g>
+          </svg>
+          <ul class="micro-points"><li>Success increases from <strong>83.8%</strong> to <strong>92.8%</strong> as the pretraining set grows.</li></ul>
+        </article>
+
+        <article class="chart-card">
+          <div class="chart-heading"><div><p class="eyebrow">Robot demonstrations</p><h3>Less downstream data, stronger policy</h3></div><span class="chart-legend"><i></i> LSA <i></i> Baseline</span></div>
+          <svg class="scaling-chart" viewBox="0 0 620 300" role="img" aria-labelledby="finetune-chart-title finetune-chart-desc">
+            <title id="finetune-chart-title">Fine-tuning data scaling</title><desc id="finetune-chart-desc">LSA consistently outperforms the baseline and matches the baseline peak with 60 percent of demonstrations.</desc>
+            <g class="grid-lines"><line x1="70" y1="45" x2="585" y2="45"/><line x1="70" y1="97" x2="585" y2="97"/><line x1="70" y1="149" x2="585" y2="149"/><line x1="70" y1="201" x2="585" y2="201"/><line x1="70" y1="255" x2="585" y2="255"/></g>
+            <g class="axis-labels"><text x="36" y="49">100</text><text x="44" y="101">75</text><text x="44" y="153">50</text><text x="44" y="205">25</text><text x="70" y="280">4%</text><text x="177" y="280">20%</text><text x="284" y="280">40%</text><text x="390" y="280">60%</text><text x="497" y="280">80%</text><text x="550" y="280">100%</text></g>
+            <polyline class="baseline-line" points="79,238 187,192 294,154 401,131 508,115 568,100"/><polyline class="ours-line" points="79,228 187,180 294,122 401,104 508,80 568,61"/>
+            <g class="baseline-points"><circle cx="79" cy="238" r="6"/><circle cx="187" cy="192" r="6"/><circle cx="294" cy="154" r="6"/><circle cx="401" cy="131" r="6"/><circle cx="508" cy="115" r="6"/><circle cx="568" cy="100" r="6"/></g><g class="ours-points"><circle cx="79" cy="228" r="7"/><circle cx="187" cy="180" r="7"/><circle cx="294" cy="122" r="7"/><circle cx="401" cy="104" r="7"/><circle cx="508" cy="80" r="7"/><circle cx="568" cy="61" r="7"/></g>
+          </svg>
+          <ul class="micro-points"><li>LSA reaches the baseline's peak performance using only <strong>60%</strong> of expert demonstrations.</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section content-section" id="real-world-demo" data-reveal>
+    <div class="container is-max-widescreen">
+      <div class="section-heading split-heading"><div><p class="eyebrow">Real-world evaluation</p><h2 class="title is-3">Four tasks, two unseen appearances</h2></div><div class="section-icon icon-act"><i class="fa-solid fa-robot"></i></div></div>
+      <ul class="key-points compact-points left-points"><li>A Franka Research 3 uses RGB observations from a fixed RealSense D435i camera.</li><li>Each task uses 30 demonstrations and 10 evaluation trials.</li><li>Two unseen towel colors test appearance-level out-of-distribution generalization.</li></ul>
+
+      <figure class="science-figure full-real-world-figure">
+        <img src="assets/real-world-source.png" alt="Full overview of the Franka setup, four real-world demonstrations, and two out-of-distribution tasks">
+        <figcaption><span class="caption-dot"></span>Real-world setup, four task demonstrations, and two unseen towel-color variants.</figcaption>
+      </figure>
+
+      <div class="table-card">
+        <div class="table-title-row"><div><p class="eyebrow">Success rate (%)</p><h3>Real-world comparison</h3></div><span class="best-chip"><i class="fa-solid fa-trophy"></i> Best average</span></div>
+        <div class="table-scroll">
+          <table class="results-table">
+            <thead><tr><th>Method</th><th>Pluck Flower</th><th>Pick Trash</th><th>Place Toy</th><th>Wipe PC</th><th>Unseen 1</th><th>Unseen 2</th><th>Average</th></tr></thead>
+            <tbody>
+              <tr><th>DINOv3</th><td>20</td><td>30</td><td>20</td><td>30</td><td>10</td><td>20</td><td>21.7</td></tr>
+              <tr><th>R3M-A</th><td>10</td><td>30</td><td>30</td><td>40</td><td>0</td><td>10</td><td>20.0</td></tr>
+              <tr><th>VIP</th><td>50</td><td>40</td><td>50</td><td>40</td><td>20</td><td>20</td><td>36.7</td></tr>
+              <tr><th>HRP</th><td>40</td><td>40</td><td>60</td><td>50</td><td>20</td><td>40</td><td>41.7</td></tr>
+              <tr class="ours-row"><th>LSA (Ours)</th><td>50</td><td>70</td><td>80</td><td>80</td><td>70</td><td>60</td><td><strong>68.3</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-item"><video class="lazy" autoplay loop muted playsinline preload="none"><source data-src="assets/videos/wipe_pc.mp4" type="video/mp4"></video><div class="demo-caption"><i class="fa-solid fa-display"></i><span>Wipe PC</span></div></article>
+        <article class="demo-item"><video class="lazy" autoplay loop muted playsinline preload="none"><source data-src="assets/videos/pluck_flower.mp4" type="video/mp4"></video><div class="demo-caption"><i class="fa-solid fa-seedling"></i><span>Pluck Flower</span></div></article>
+        <article class="demo-item"><video class="lazy" autoplay loop muted playsinline preload="none"><source data-src="assets/videos/pick_trash.mp4" type="video/mp4"></video><div class="demo-caption"><i class="fa-solid fa-trash-can"></i><span>Pick Trash</span></div></article>
+        <article class="demo-item"><video class="lazy" autoplay loop muted playsinline preload="none"><source data-src="assets/videos/place_toy.mp4" type="video/mp4"></video><div class="demo-caption"><i class="fa-solid fa-basket-shopping"></i><span>Place Toy</span></div></article>
+        <article class="demo-item"><video class="lazy" autoplay loop muted playsinline preload="none"><source data-src="assets/videos/wipe_pc_unseen_1.mp4" type="video/mp4"></video><div class="demo-caption"><i class="fa-solid fa-droplet"></i><span>Wipe PC · Unseen 1</span></div></article>
+        <article class="demo-item"><video class="lazy" autoplay loop muted playsinline preload="none"><source data-src="assets/videos/wipe_pc_unseen_2.mp4" type="video/mp4"></video><div class="demo-caption"><i class="fa-solid fa-droplet"></i><span>Wipe PC · Unseen 2</span></div></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="container is-max-widescreen content bibtex-block" data-reveal>
+  <div class="bibtex-heading"><div><p class="eyebrow">Reference</p><h2 class="title">BibTeX</h2></div><button id="copy-citation" class="button is-small is-light" type="button" disabled><i class="fa-regular fa-copy"></i><span>Coming soon</span></button></div>
+  <pre class="empty-bibtex" aria-label="BibTeX placeholder"><code id="bibtex"></code></pre>
 </section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="my-block">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">Abstract</h2>
-          <div class="content has-text-justified">
-            <p>
-              Robot policy pretraining based on human videos is crucial for improving the policy's generalization ability. One main challenge is the lack of explicit action-relevant representations in such unlabeled data. Recent works estimate 3D hand motion trajectories from videos using 3D foundation models (3D FMs), but retain only sparse trajectories as supervision and overlook the rich, fine-grained information produced during trajectory extraction. To address this issue, we propose <strong>LSA</strong>, a hierarchical robot policy pretraining framework with three phases: <strong>Lift</strong>, <strong>See</strong>, and <strong>Act</strong>. Lift elevates 2D video observations into dense 3D representations by aligning shallow policy features with intermediate representations from multiple 3D FMs. See equips the policy with explicit geometric and interactive awareness through depth-map reconstruction and hand-region attention guidance. Act leverages these representations for robust and accurate robotic manipulation. Extensive experiments across diverse simulation and real-world tasks demonstrate that LSA significantly outperforms current state-of-the-art approaches.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container is-fullhd">
-    <div class="my-block">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Comparison with Previous Methods</h2>
-        <div class="figure-wrap comparison-figure">
-          <img src="assets/comparison.png" class="interpolation-image" alt="Comparison between existing explicit pretraining methods and Lift, See, Act">
-        </div>
-        <div class="content has-text-justified figure-description">
-          <p>
-            Existing methods mainly retain sparse 2D or 3D trajectories as supervision. LSA instead exploits intermediate representations from 3D foundation models: dense 3D representation alignment provides the <strong>Lift</strong>, structural and attentive guidance enable the policy to <strong>See</strong>, and 3D motion supervision teaches it to <strong>Act</strong>.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container is-fullhd">
-    <div class="my-block">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Pipeline</h2>
-        <div class="figure-wrap">
-          <img src="assets/architecture.png" class="interpolation-image" alt="Architecture overview of the Lift, See, Act framework">
-        </div>
-        <div class="content has-text-justified figure-description">
-          <p>
-            LSA contains a data engine, hierarchical policy pretraining, and closed-loop control. The data engine extracts dense geometry, metric depth, 2D hand keypoints, and 3D hand motions from diverse human videos. During pretraining, representation alignment, depth reconstruction, attentive guidance, and motion prediction progressively inject geometry and interaction knowledge into the policy. At deployment, the pretrained encoder transfers these priors to closed-loop robot control.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container is-fullhd">
-    <div class="my-block">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Attentive Guidance</h2>
-        <div class="figure-wrap">
-          <img src="assets/guidance.png" class="interpolation-image guidance-image" alt="Attention maps with and without attentive guidance">
-        </div>
-        <div class="content has-text-justified figure-description">
-          <p>
-            Hand-region cues explicitly guide the encoder toward interaction hotspots. On both human videos and robotic scenes, attentive guidance strengthens responses around the hand, gripper, and manipulated objects while suppressing irrelevant background regions.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container is-fullhd">
-    <div class="my-block">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Real-world Experiments</h2>
-        <div class="content has-text-justified figure-description pre-figure-copy">
-          <p>
-            We evaluate LSA with a Franka Research 3 robot on four manipulation tasks and two out-of-distribution towel-color variants. LSA achieves a <strong>68.3% average success rate</strong>, outperforming the compared visual representation learning baselines.
-          </p>
-        </div>
-        <div class="figure-wrap">
-          <img src="assets/real-world-overview.png" class="interpolation-image" alt="Real-world robot setup, task demonstrations, out-of-distribution settings, and evaluation results">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container is-fullhd" id="real-world-demo">
-    <div class="my-block">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Real-world Demo</h2>
-        <div class="content has-text-justified figure-description">
-          <p>
-            The real-world demonstrations show LSA executing four manipulation tasks and generalizing to unseen towel colors. Videos are loaded only when they enter the viewport, following the interaction pattern used by the DreamVLA project page.
-          </p>
-        </div>
-
-        <div class="rows demo-rows">
-          <div class="columns">
-            <div class="column has-text-centered demo-item">
-              <video class="lazy" autoplay loop muted playsinline preload="none">
-                <source data-src="assets/videos/wipe_pc.mp4" type="video/mp4">
-              </video>
-              <p>Wipe PC.</p>
-            </div>
-            <div class="column has-text-centered demo-item">
-              <video class="lazy" autoplay loop muted playsinline preload="none">
-                <source data-src="assets/videos/pluck_flower.mp4" type="video/mp4">
-              </video>
-              <p>Pluck the flower.</p>
-            </div>
-            <div class="column has-text-centered demo-item">
-              <video class="lazy" autoplay loop muted playsinline preload="none">
-                <source data-src="assets/videos/pick_trash.mp4" type="video/mp4">
-              </video>
-              <p>Pick up the trash.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="rows demo-rows">
-          <div class="columns">
-            <div class="column has-text-centered demo-item">
-              <video class="lazy" autoplay loop muted playsinline preload="none">
-                <source data-src="assets/videos/place_toy.mp4" type="video/mp4">
-              </video>
-              <p>Place the toy.</p>
-            </div>
-            <div class="column has-text-centered demo-item">
-              <video class="lazy" autoplay loop muted playsinline preload="none">
-                <source data-src="assets/videos/wipe_pc_unseen_1.mp4" type="video/mp4">
-              </video>
-              <p>Wipe PC — unseen towel color U1.</p>
-            </div>
-            <div class="column has-text-centered demo-item">
-              <video class="lazy" autoplay loop muted playsinline preload="none">
-                <source data-src="assets/videos/wipe_pc_unseen_2.mp4" type="video/mp4">
-              </video>
-              <p>Wipe PC — unseen towel color U2.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="container is-max-widescreen content bibtex-block">
-  <div class="bibtex-heading">
-    <h2 class="title">BibTeX</h2>
-    <button id="copy-citation" class="button is-small is-light" type="button">Copy</button>
-  </div>
-  <pre><code id="bibtex">@inproceedings{ge2026lift,
-  title     = {Lift, See, Act: Hierarchical Robot Policy Pretraining
-               with 3D Foundation Models},
-  author    = {Ge, Yiyuan and Ding, Changxing and Hao, Ziyu and
-               Zheng, Zijie and Xu, Xiangmin},
-  booktitle = {Advances in Neural Information Processing Systems},
-  year      = {2026}
-}</code></pre>
-</div>
-
-<footer class="footer">
-  <div class="content has-text-centered">
-    <p>
-      This website follows the format of <a href="https://zhangwenyao1.github.io/DreamVLA/" target="_blank" rel="noopener">DreamVLA</a>, whose template is based on <a href="https://qizekun.github.io/shapellm/" target="_blank" rel="noopener">ShapeLLM</a> and <a href="https://moka-manipulation.github.io/" target="_blank" rel="noopener">MoKA</a>. We thank the authors for their codebase.
-    </p>
-  </div>
-</footer>
-
+<footer class="footer"><div class="content has-text-centered"><p class="footer-credit"><span class="caption-dot"></span>This website follows the format of <a href="https://zhangwenyao1.github.io/DreamVLA/" target="_blank" rel="noopener">DreamVLA</a>, whose template is based on <a href="https://qizekun.github.io/shapellm/" target="_blank" rel="noopener">ShapeLLM</a> and <a href="https://moka-manipulation.github.io/" target="_blank" rel="noopener">MoKA</a>.</p></div></footer>
+<a class="back-to-top" href="#top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
 <script src="script.js"></script>
 </body>
 </html>
