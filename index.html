@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,500,600,700,800|Shantell+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="stylesheet" href="styles.css?v=reviewer-resume">
+  <link rel="stylesheet" href="styles.css?v=attentive-clear">
   <script>
     window.MathJax = {tex: {inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']]}, svg: {fontCache: 'global'}};
   </script>
@@ -109,14 +109,14 @@
         <div>
           <div class="novelty-badge"><i class="fa-solid fa-star"></i> Novel contribution highlighted by reviewers</div>
           <p class="eyebrow">See phase</p>
-          <h2 class="title is-3">Attentive guidance: a hand cue reveals hand-object awareness</h2>
+          <h2 class="title is-3">Attentive guidance: discover emergent hand-object attention</h2>
         </div>
         <div class="section-icon icon-see"><i class="fa-solid fa-eye"></i></div>
       </div>
       <ul class="key-points compact-points left-points">
-        <li><strong>Action supervision seeds the pattern.</strong> Act-phase motion planning couples future hand trajectories with hand-object spatial relations, encouraging attention to both the hand and the interacting object.</li>
-        <li><strong>The hand prior finds it.</strong> A hand-region heatmap helps mine the model's own interaction-aware attention map; it is a selection cue, not the attention target.</li>
-        <li><strong>Self-distillation broadcasts it.</strong> The selected pattern guides the head-averaged attention of each shallow layer, rather than forcing every head to copy a fixed hand heatmap.</li>
+        <li><strong>Emergence.</strong> Predicting future hand motion encourages attention to emerge around the hand and the object it interacts with.</li>
+        <li><strong>Mining.</strong> A hand-region cue ranks the encoder's internal attention maps; the selected map remains free to include the object.</li>
+        <li><strong>Broadcasting.</strong> One mined target guides the mean attention of each shallow layer while preserving diversity between heads.</li>
       </ul>
       <figure class="science-figure attention-figure">
         <div class="attention-crop"><img src="assets/attentive-guidance-source.png" alt="Attention maps focusing on hands, robot grippers, and manipulated objects"></div>
@@ -128,8 +128,9 @@
           <div class="formula-step-index">1</div>
           <div class="formula-step-body">
             <h3>Let interaction-aware attention emerge</h3>
-            <div class="formula small-formula">\[\begin{aligned}z&=\operatorname{Pool}(X_{\mathrm{last}})\\ \hat T&=\operatorname{MotionHead}(z)\\ \mathcal{L}_{\mathrm{motion}}&=\left\|\hat T-T\right\|_1\end{aligned}\]</div>
-            <p>First warm up for 10 epochs with future 3D wrist-trajectory prediction. Motion planning encourages task-relevant attention to emerge before an attention target is selected.</p>
+            <div class="formula small-formula">\[\mathcal{L}_{\mathrm{motion}}=\left\|\hat T-T\right\|_1\]</div>
+            <p>\(T\) is the ground-truth future 3D wrist trajectory; \(\hat T\) is the model's prediction. The \(\ell_1\) norm sums absolute coordinate errors.</p>
+            <p>Warm up for 10 epochs with this Act-phase objective. Future hand motion depends on hand-object spatial relations, encouraging interaction-aware attention to emerge before we mine a target.</p>
           </div>
         </article>
 
@@ -137,8 +138,9 @@
           <div class="formula-step-index">2</div>
           <div class="formula-step-body">
             <h3>Build a soft hand prior</h3>
-            <div class="formula small-formula">\[\begin{aligned}q_k(x,y)&=\frac{(x-x_k)^2+(y-y_k)^2}{2\sigma^2}\\ H(x,y)&=\max_k\exp(-q_k)\\ h&=\operatorname{Softmax}(H/\tau)\end{aligned}\]</div>
-            <p>The 21 detected hand keypoints form a smooth cue at patch resolution. This hand prior helps locate a useful internal pattern; it does not replace the model's attention.</p>
+            <div class="formula small-formula">\[h=\operatorname{Softmax}(H/\tau)\]</div>
+            <p>\(H\) is a hand heatmap built from Gaussian responses around 21 detected hand keypoints and resized to the encoder's patch grid.</p>
+            <p>\(\tau\) controls softness; Softmax normalizes over all patches. The resulting \(h\) is a vector of hand-prior weights, with \(h_i\) the weight of patch \(i\). It is a cue for selection, not the supervision target.</p>
           </div>
         </article>
 
@@ -146,8 +148,9 @@
           <div class="formula-step-index">3</div>
           <div class="formula-step-body">
             <h3>Score the model's emerging attention</h3>
-            <div class="formula small-formula">\[s_{n,k}=\frac{1}{N_a}\sum_{i=1}^{N_a}a_{n,k,i}\,h_i\]</div>
-            <p>Each shallow head is measured by how well its CLS-to-patch attention overlaps the hand prior.</p>
+            <div class="formula small-formula">\[s_{n,k}=\frac{1}{N}\sum_{i=1}^{N}a_{n,k,i}\,h_i\]</div>
+            <p>\(n\) indexes a shallow layer, \(k\) an attention head, and \(i\) an image patch; \(N\) is the total number of patches. We search the first \(R=6\) layers.</p>
+            <p>\(a_{n,k,i}\) is attention from the image-summary [CLS] token to patch \(i\) in layer \(n\), head \(k\). The score \(s_{n,k}\) measures its overlap with the hand prior: a larger score identifies a better candidate.</p>
           </div>
         </article>
 
@@ -155,8 +158,9 @@
           <div class="formula-step-index">4</div>
           <div class="formula-step-body">
             <h3>Mine the interaction-aware target</h3>
-            <div class="formula small-formula">\[(n^*,k^*)=\arg\max_{n,k}s_{n,k},\qquad a^*=a_{n^*,k^*}\]</div>
-            <p>Select the highest-scoring internal map across heads in the first \(R\) layers. Because the full map is retained, the target can cover the interacting object as well as the hand.</p>
+            <div class="formula small-formula">\[\begin{aligned}(n^*,k^*)&=\arg\max_{n,k}s_{n,k}\\ a^*&=a_{n^*,k^*}\end{aligned}\]</div>
+            <p>\(\arg\max\) returns the winning layer and head, \((n^*,k^*)\). The selected target \(a^*\) is that head's complete attention map over all \(N\) patches.</p>
+            <p>We retain the full map, not just its hand region. Its emergent attention to the interacting object therefore remains part of the target.</p>
           </div>
         </article>
 
@@ -164,19 +168,17 @@
           <div class="formula-step-index">5</div>
           <div class="formula-step-body">
             <h3>Broadcast the pattern through self-distillation</h3>
-            <div class="formula small-formula">\[\begin{aligned}\tilde a^*&=\phi(\operatorname{sg}(a^*)),\quad \tilde a_n=\phi(\bar a_n)\\ \mathcal{L}_{\mathrm{att}}&=\sum_{n=1}^{R}\left\|\tilde a^*-\tilde a_n\right\|_2^2\end{aligned}\]</div>
-            <p>The mined target is stop-gradient fixed for self-distillation. In each of the first \(R=6\) layers, \(\bar a_n\) averages heads and \(\phi\) applies Min-Max normalization. Aligning the mean spatial focus preserves inter-head diversity.</p>
+            <div class="formula small-formula">\[\begin{aligned}\tilde a^*&=\phi(\operatorname{sg}(a^*))\\ \tilde a_n&=\phi(\bar a_n)\\ \mathcal{L}_{\mathrm{att}}&=\sum_{n=1}^{R}\left\|\tilde a^*-\tilde a_n\right\|_2^2\end{aligned}\]</div>
+            <p>\(\bar a_n\) is the mean attention map over all heads in layer \(n\). Min-Max normalization \(\phi\) rescales each map's spatial values to \([0,1]\); stop-gradient \(\operatorname{sg}\) prevents this loss from updating the selected target.</p>
+            <p>Thus \(\tilde a^*\) is the normalized target and \(\tilde a_n\) the normalized layer mean. The squared \(\ell_2\) distance compares their patchwise values, and \(\mathcal{L}_{\mathrm{att}}\) sums these errors across the first \(R=6\) layers.</p>
+            <p>Matching each layer's mean attention broadcasts the mined interaction pattern without requiring all individual heads to become identical.</p>
           </div>
         </article>
       </div>
 
       <aside class="insight-panel">
         <div class="insight-title"><i class="fa-solid fa-lightbulb"></i> Insight</div>
-        <ul class="key-points">
-          <li><strong>Why does a hand cue reveal the object?</strong> Future hand motion depends on hand-object spatial relations. Motion planning encourages an internal pattern that attends to both; the hand prior mines that pattern without cropping away its object focus.</li>
-          <li><strong>Discover, then broadcast—not paint a hand heatmap.</strong> The target is the model's own selected attention map. Guiding each layer's head-averaged attention shares its interaction focus while leaving individual heads diverse.</li>
-          <li><strong>The pattern transfers to robots.</strong> The visualizations show stronger attention to grippers and manipulated objects, with less attention to irrelevant background.</li>
-        </ul>
+        <p class="insight-claim">A hand cue is not a hand-only target: it unlocks <strong>emergent hand-object awareness</strong> learned from action.</p>
       </aside>
     </div>
   </section>

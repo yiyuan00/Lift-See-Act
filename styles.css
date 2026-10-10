@@ -249,6 +249,8 @@ mjx-container[jax="SVG"][display="true"] { max-width: 100%; margin: .55rem 0 !im
 .insight-title i { margin-top: .18rem; color: #e3ae24; }
 .insight-panel .key-points { display: grid; gap: .5rem; color: #545962; font-size: .86rem; line-height: 1.55; }
 .insight-panel .key-points li::before { background: #d6a32d; box-shadow: 0 0 0 4px rgba(214, 163, 45, .12); }
+#see-phase .insight-claim { margin: 0; color: #70551d; font-size: clamp(1.15rem, 2.1vw, 1.55rem); font-weight: 700; line-height: 1.45; letter-spacing: -.02em; }
+#see-phase .insight-claim strong { color: #a16d0d; }
 
 .full-real-world-figure { margin-bottom: 1.2rem; padding: .7rem; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 12px 30px rgba(25, 32, 44, .055); }
 .full-real-world-figure > img { display: block; width: 100%; height: auto; border-radius: 12px; }
