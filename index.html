@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,500,600,700,800|Shantell+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="stylesheet" href="styles.css?v=attentive-clear">
+  <link rel="stylesheet" href="styles.css?v=visitor-welcome">
   <script>
     window.MathJax = {tex: {inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']]}, svg: {fontCache: 'global'}};
   </script>
@@ -266,8 +266,18 @@
   <pre class="empty-bibtex" aria-label="BibTeX placeholder"><code id="bibtex"></code></pre>
 </section>
 
-<footer class="footer"><div class="content has-text-centered"><p class="footer-credit"><span class="caption-dot"></span>This website follows the format of <a href="https://zhangwenyao1.github.io/DreamVLA/" target="_blank" rel="noopener">DreamVLA</a>, whose template is based on <a href="https://qizekun.github.io/shapellm/" target="_blank" rel="noopener">ShapeLLM</a> and <a href="https://moka-manipulation.github.io/" target="_blank" rel="noopener">MoKA</a>.</p></div></footer>
+<footer class="footer"><div class="content has-text-centered"><p class="footer-credit"><span class="caption-dot"></span>This website follows the format of <a href="https://zhangwenyao1.github.io/DreamVLA/" target="_blank" rel="noopener">DreamVLA</a>, whose template is based on <a href="https://qizekun.github.io/shapellm/" target="_blank" rel="noopener">ShapeLLM</a> and <a href="https://moka-manipulation.github.io/" target="_blank" rel="noopener">MoKA</a>.</p>
+  <div class="visitor-stats" id="visitor-stats" hidden><span><span aria-hidden="true">🌍</span> <strong id="visitor-total"></strong> browser visitors</span><span><span aria-hidden="true">👀</span> <strong id="visitor-views"></strong> page views</span></div>
+  <p class="visitor-privacy" id="visitor-privacy" hidden>Counting started October 13, 2026. A random browser ID keeps your visitor number; switching browsers or clearing storage counts as a new visitor. Counts are handled by Cloudflare. This page does not store names, IP addresses, or browsing history. Do Not Track / Global Privacy Control is respected.</p>
+</div></footer>
+<aside class="visitor-welcome" id="visitor-welcome" data-counter-url="https://lsa-visitor-counter.1209027338.workers.dev" aria-label="Visitor welcome" hidden>
+  <span class="visitor-wave" aria-hidden="true">👋</span>
+  <div class="visitor-welcome-copy" role="status" aria-live="polite" aria-atomic="true"><p class="visitor-welcome-title" id="visitor-welcome-title">Welcome to LSA!</p><p class="visitor-welcome-message" id="visitor-welcome-message"></p></div>
+  <span class="visitor-sparkle" aria-hidden="true">✦</span>
+  <button class="visitor-welcome-close" type="button" aria-label="Dismiss welcome">×</button>
+</aside>
 <a class="back-to-top" href="#top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
 <script src="script.js?v=reviewer-resume"></script>
+<script defer src="visitor.js?v=visitor-welcome"></script>
 </body>
 </html>
