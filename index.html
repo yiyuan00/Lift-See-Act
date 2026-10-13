@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,500,600,700,800|Shantell+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="stylesheet" href="styles.css?v=visitor-welcome">
+  <link rel="stylesheet" href="styles.css?v=visitor-calendar">
   <script>
     window.MathJax = {tex: {inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']]}, svg: {fontCache: 'global'}};
   </script>
@@ -24,6 +24,11 @@
     <button type="button" class="reviewer-trophy" title="Click to pause and celebrate!" aria-label="Yiyuan, NeurIPS 26 Top Reviewer. Click to pause and celebrate." aria-pressed="false"><span aria-hidden="true">🏆</span> Yiyuan · NeurIPS 26 Top Reviewer <span class="reviewer-spark" aria-hidden="true">✦</span></button>
   </div>
   <div class="reviewer-confetti" aria-hidden="true"></div>
+  <aside class="visitor-calendar" id="visitor-calendar" aria-label="Total browser visitors" aria-busy="true">
+    <div class="visitor-calendar-heading"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Total Visitors</span></div>
+    <div class="visitor-calendar-pages" aria-live="polite" aria-atomic="true"><strong class="visitor-calendar-number" id="visitor-total">—</strong><span class="visitor-calendar-flip" aria-hidden="true">—</span></div>
+    <details class="visitor-calendar-info"><summary aria-label="How visitors are counted">i</summary><p id="visitor-privacy">Counting started October 13, 2026. This total counts independent browsers, not verified individual people. A random browser ID prevents refreshes from adding a new visitor; switching browsers or clearing storage counts as a new visitor. Cloudflare handles the counts; this page does not store names, IP addresses, or browsing history. Do Not Track / Global Privacy Control disables counting your visit.</p></details>
+  </aside>
   <div class="hero-body">
     <div class="columns is-centered">
       <div class="column has-text-centered">
@@ -266,10 +271,7 @@
   <pre class="empty-bibtex" aria-label="BibTeX placeholder"><code id="bibtex"></code></pre>
 </section>
 
-<footer class="footer"><div class="content has-text-centered"><p class="footer-credit"><span class="caption-dot"></span>This website follows the format of <a href="https://zhangwenyao1.github.io/DreamVLA/" target="_blank" rel="noopener">DreamVLA</a>, whose template is based on <a href="https://qizekun.github.io/shapellm/" target="_blank" rel="noopener">ShapeLLM</a> and <a href="https://moka-manipulation.github.io/" target="_blank" rel="noopener">MoKA</a>.</p>
-  <div class="visitor-stats" id="visitor-stats" hidden><span><span aria-hidden="true">🌍</span> <strong id="visitor-total"></strong> browser visitors</span><span><span aria-hidden="true">👀</span> <strong id="visitor-views"></strong> page views</span></div>
-  <p class="visitor-privacy" id="visitor-privacy" hidden>Counting started October 13, 2026. A random browser ID keeps your visitor number; switching browsers or clearing storage counts as a new visitor. Counts are handled by Cloudflare. This page does not store names, IP addresses, or browsing history. Do Not Track / Global Privacy Control is respected.</p>
-</div></footer>
+<footer class="footer"><div class="content has-text-centered"><p class="footer-credit"><span class="caption-dot"></span>This website follows the format of <a href="https://zhangwenyao1.github.io/DreamVLA/" target="_blank" rel="noopener">DreamVLA</a>, whose template is based on <a href="https://qizekun.github.io/shapellm/" target="_blank" rel="noopener">ShapeLLM</a> and <a href="https://moka-manipulation.github.io/" target="_blank" rel="noopener">MoKA</a>.</p></div></footer>
 <aside class="visitor-welcome" id="visitor-welcome" data-counter-url="https://lsa-visitor-counter.1209027338.workers.dev" aria-label="Visitor welcome" hidden>
   <span class="visitor-wave" aria-hidden="true">👋</span>
   <div class="visitor-welcome-copy" role="status" aria-live="polite" aria-atomic="true"><p class="visitor-welcome-title" id="visitor-welcome-title">Welcome to LSA!</p><p class="visitor-welcome-message" id="visitor-welcome-message"></p></div>
@@ -278,6 +280,6 @@
 </aside>
 <a class="back-to-top" href="#top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
 <script src="script.js?v=reviewer-resume"></script>
-<script defer src="visitor.js?v=visitor-welcome"></script>
+<script defer src="visitor.js?v=visitor-calendar"></script>
 </body>
 </html>
