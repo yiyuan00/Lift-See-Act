@@ -4,18 +4,15 @@
 
 <p align="center">
   <a href="https://scholar.google.com/citations?user=qKxpHGcAAAAJ&hl=zh-CN">Yiyuan Ge</a>,
-  <a href="https://scholar.google.com/citations?user=8Z8jplgAAAAJ&hl=zh-CN&oi=ao">Changxing Ding</a><sup>&dagger;</sup>,
-  Ziyu Hao, Zijie Zheng, and Xiangmin Xu
+  Changxing Ding, Ziyu Hao, Zijie Zheng, and Xiangmin Xu
 </p>
 
 <p align="center">
-  South China University of Technology<br>
-  <sup>&dagger;</sup>Corresponding author
+  South China University of Technology
 </p>
 
 <p align="center">
-  <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a> ·
-  <a href="assets/videos/f2_video.mp4">Method Video</a>
+  <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a>
 </p>
 
 <p align="center">
