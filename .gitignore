@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.venv/
+checkpoints/
+outputs/
+data/
+teacher_cache/
+*.log
