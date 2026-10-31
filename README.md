@@ -1,4 +1,17 @@
-# Lift, See, Act: Hierarchical Robot Policy Pretraining with 3D Foundation Models
+<h1 align="center">Lift, See, Act: Hierarchical Robot Policy Pretraining with 3D Foundation Models</h1>
+
+<p align="center"><strong>NeurIPS 2026</strong></p>
+
+<p align="center">
+  <a href="https://scholar.google.com/citations?user=qKxpHGcAAAAJ&hl=zh-CN">Yiyuan Ge</a>,
+  <a href="https://scholar.google.com/citations?user=8Z8jplgAAAAJ&hl=zh-CN&oi=ao">Changxing Ding</a><sup>&dagger;</sup>,
+  Ziyu Hao, Zijie Zheng, and Xiangmin Xu
+</p>
+
+<p align="center">
+  South China University of Technology<br>
+  <sup>&dagger;</sup>Corresponding author
+</p>
 
 <p align="center">
   <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a> ·
@@ -6,8 +19,8 @@
 </p>
 
 <p align="center">
-  <a href="assets/videos/f2_video.mp4">
-    <img src="assets/architecture.png" width="92%" alt="Lift, See, Act overview">
+  <a href="assets/f2.pdf">
+    <img src="assets/f2.png" width="92%" alt="Lift, See, Act method overview">
   </a>
 </p>
 
@@ -101,3 +114,7 @@ Checkpoints and a complete training summary are written to the selected output d
 ## Acknowledgements
 
 This project builds on [VGGT](https://github.com/facebookresearch/vggt), [Depth Pro](https://github.com/apple/ml-depth-pro), and [Hugging Face Transformers](https://github.com/huggingface/transformers).
+
+## Contact
+
+For questions, please contact [1209027338@qq.com](mailto:1209027338@qq.com).
