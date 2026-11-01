@@ -386,8 +386,8 @@ def cached_collate(batch: Sequence[Dict[str, object]]) -> Dict[str, object]:
 class FixedGlobalBatchSampler(Sampler[int]):
     """Give each rank its slice of the original global batches.
 
-    For global batch 16 and world size 4, rank r receives positions
-    [4*r:4*(r+1)] from every original batch. This preserves the original
+    For global batch 64 and world size 4, rank r receives positions
+    [16*r:16*(r+1)] from every original batch. This preserves the original
     batch grouping and exact optimizer-step count.
     """
 
