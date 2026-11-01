@@ -106,7 +106,7 @@ CUDA_VISIBLE_DEVICES=0 torchrun --standalone --nproc_per_node=1 train.py \
   --local-batch-size 16 --global-batch-size 16
 ```
 
-Four GPUs (paper setting, global batch size 64):
+Four GPUs (batch size 16 per GPU):
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --standalone --nproc_per_node=4 train.py \
