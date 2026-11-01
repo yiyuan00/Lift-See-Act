@@ -12,8 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a> ·
-  <a href="https://www.modelscope.cn/datasets/gerryrex/dex_for_pretrain">Pretraining Data</a>
+  <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a>
 </p>
 
 <p align="center">
