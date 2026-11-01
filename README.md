@@ -12,7 +12,8 @@
 </p>
 
 <p align="center">
-  <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a>
+  <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a> ·
+  <a href="https://www.modelscope.cn/datasets/gerryrex/dex_for_pretrain">Pretraining Data</a>
 </p>
 
 <p align="center">
@@ -56,7 +57,18 @@ wget https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt \
   -O checkpoints/vggt_1b.pt
 ```
 
-The prepared DexYCB archive will be released separately. Extract it as follows:
+Download the prepared DexYCB pretraining data from [ModelScope](https://www.modelscope.cn/datasets/gerryrex/dex_for_pretrain) and extract it into `data/dexycb`:
+
+```bash
+pip install modelscope
+modelscope download --dataset gerryrex/dex_for_pretrain \
+  --local_dir data/dex_for_pretrain
+mkdir -p data/dexycb
+tar -xf data/dex_for_pretrain/LSA-DexYCB-Pretrain.tar \
+  -C data/dexycb
+```
+
+The extracted directory has the following structure:
 
 ```text
 data/dexycb/
