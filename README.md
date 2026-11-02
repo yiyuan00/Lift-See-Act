@@ -126,3 +126,7 @@ This project builds on [VGGT](https://github.com/facebookresearch/vggt), [Depth 
 ## Contact
 
 For questions, please contact [1209027338@qq.com](mailto:1209027338@qq.com).
+
+## License
+
+The code in this repository is released under the [Apache License 2.0](LICENSE). Third-party models, datasets, and model weights remain subject to their respective licenses.
