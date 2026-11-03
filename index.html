@@ -121,7 +121,7 @@
       </ul>
       <figure class="science-figure attention-figure">
         <div class="attention-crop"><img src="assets/attentive-guidance-source.png" alt="Attention maps focusing on hands, robot grippers, and manipulated objects"></div>
-        <figcaption><span class="caption-dot"></span>Human videos (left) and robot scenes (right). Top: with attentive guidance; bottom: without.</figcaption>
+        <figcaption><span class="caption-dot"></span>Human videos (left) and robot scenes (right). Top: with attentive guidance; bottom: without. Each map averages attention over the first \(R\) shallow layers.</figcaption>
       </figure>
 
       <div class="formula-steps">
@@ -131,17 +131,17 @@
             <h3>Let interaction-aware attention emerge</h3>
             <div class="formula small-formula">\[\mathcal{L}_{\mathrm{motion}}=\left\|\hat T-T\right\|_1\]</div>
             <p>\(T\) is the ground-truth future 3D wrist trajectory; \(\hat T\) is the model's prediction. The \(\ell_1\) norm sums absolute coordinate errors.</p>
-            <p>Warm up for 10 epochs with this Act-phase objective. Future hand motion depends on hand-object spatial relations, encouraging interaction-aware attention to emerge before we mine a target.</p>
+            <p>Warm up the visual encoder for several epochs with this motion planning objective. Future hand trajectories are tightly coupled with hand-object spatial relations, allowing initial task-relevant attention patterns to emerge before we mine a target.</p>
           </div>
         </article>
 
         <article class="formula-step">
           <div class="formula-step-index">2</div>
           <div class="formula-step-body">
-            <h3>Build a soft hand prior</h3>
-            <div class="formula small-formula">\[h=\operatorname{Softmax}(H/\tau)\]</div>
-            <p>\(H\) is a hand heatmap built from Gaussian responses around 21 detected hand keypoints and resized to the encoder's patch grid.</p>
-            <p>\(\tau\) controls softness; Softmax normalizes over all patches. The resulting \(h\) is a vector of hand-prior weights, with \(h_i\) the weight of patch \(i\). It is a cue for selection, not the supervision target.</p>
+            <h3>Build a spatial hand prior</h3>
+            <div class="formula small-formula">\[\mathbf{h}\in\mathbb{R}^{N_a}\]</div>
+            <p>Generate a Gaussian heatmap from the detected hand keypoints, downsample it to the encoder's patch resolution, and arrange its spatial values into the hand-prior vector \(\mathbf{h}\).</p>
+            <p>\(N_a\) is the number of spatial patches, and \(h_i\) is the hand-prior value at patch \(i\). This prior scores the model's own attention maps; it is a selection cue, not the self-distillation target.</p>
           </div>
         </article>
 
@@ -149,9 +149,9 @@
           <div class="formula-step-index">3</div>
           <div class="formula-step-body">
             <h3>Score the model's emerging attention</h3>
-            <div class="formula small-formula">\[s_{n,k}=\frac{1}{N}\sum_{i=1}^{N}a_{n,k,i}\,h_i\]</div>
-            <p>\(n\) indexes a shallow layer, \(k\) an attention head, and \(i\) an image patch; \(N\) is the total number of patches. We search the first \(R=6\) layers.</p>
-            <p>\(a_{n,k,i}\) is attention from the image-summary [CLS] token to patch \(i\) in layer \(n\), head \(k\). The score \(s_{n,k}\) measures its overlap with the hand prior: a larger score identifies a better candidate.</p>
+            <div class="formula small-formula">\[s_{n,k}=\frac{1}{N_a}\sum_{i=1}^{N_a}A_{n,k,i}\,h_i\]</div>
+            <p>\(n\) indexes a layer and \(k\) an attention head. For every head in the first \(R\) shallow layers, extract the [CLS]-to-patch attention map \(\mathbf{A}_{n,k}\in\mathbb{R}^{N_a}\).</p>
+            <p>\(A_{n,k,i}\) is that head's attention from the image-summary [CLS] token to spatial patch \(i\). The alignment score \(s_{n,k}\) averages its patchwise product with the hand prior \(h_i\); a larger score indicates stronger alignment.</p>
           </div>
         </article>
 
@@ -159,9 +159,9 @@
           <div class="formula-step-index">4</div>
           <div class="formula-step-body">
             <h3>Mine the interaction-aware target</h3>
-            <div class="formula small-formula">\[\begin{aligned}(n^*,k^*)&=\arg\max_{n,k}s_{n,k}\\ a^*&=a_{n^*,k^*}\end{aligned}\]</div>
-            <p>\(\arg\max\) returns the winning layer and head, \((n^*,k^*)\). The selected target \(a^*\) is that head's complete attention map over all \(N\) patches.</p>
-            <p>We retain the full map, not just its hand region. Its emergent attention to the interacting object therefore remains part of the target.</p>
+            <div class="formula small-formula">\[\begin{aligned}(n^*,k^*)&=\arg\max_{n,k}s_{n,k}\\ \mathbf{A}^*&=\mathbf{A}_{n^*,k^*}\end{aligned}\]</div>
+            <p>\(\arg\max\) returns the highest-scoring layer and head, \((n^*,k^*)\), among the first \(R\) layers. The guidance target \(\mathbf{A}^*\) is that head's complete attention vector over all \(N_a\) spatial patches.</p>
+            <p>We retain the full internal map rather than replacing it with the hand prior. Emergent attention to an interacting object can therefore remain part of the selected target.</p>
           </div>
         </article>
 
@@ -169,9 +169,10 @@
           <div class="formula-step-index">5</div>
           <div class="formula-step-body">
             <h3>Broadcast the pattern through self-distillation</h3>
-            <div class="formula small-formula">\[\begin{aligned}\tilde a^*&=\phi(\operatorname{sg}(a^*))\\ \tilde a_n&=\phi(\bar a_n)\\ \mathcal{L}_{\mathrm{att}}&=\sum_{n=1}^{R}\left\|\tilde a^*-\tilde a_n\right\|_2^2\end{aligned}\]</div>
-            <p>\(\bar a_n\) is the mean attention map over all heads in layer \(n\). Min-Max normalization \(\phi\) rescales each map's spatial values to \([0,1]\); stop-gradient \(\operatorname{sg}\) prevents this loss from updating the selected target.</p>
-            <p>Thus \(\tilde a^*\) is the normalized target and \(\tilde a_n\) the normalized layer mean. The squared \(\ell_2\) distance compares their patchwise values, and \(\mathcal{L}_{\mathrm{att}}\) sums these errors across the first \(R=6\) layers.</p>
+            <div class="formula small-formula">\[\mathcal{L}_{\mathrm{att}}=\sum_{n=1}^{R}\left\|\mathcal{N}(\mathrm{sg}(\mathbf{A}^*))-\mathcal{N}(\bar{\mathbf{A}}_n)\right\|_2^2\]</div>
+            <p>\(\bar{\mathbf{A}}_n\) is the averaged multi-head [CLS]-to-patch attention map in shallow layer \(n\). Both \(\bar{\mathbf{A}}_n\) and the selected target \(\mathbf{A}^*\) have one value per spatial patch.</p>
+            <p>\(\mathcal{N}(\cdot)\) denotes spatial Min-Max normalization, rescaling each map's values to \([0,1]\). Stop-gradient \(\mathrm{sg}(\cdot)\) holds the target fixed for this loss while the averaged shallow attention is refined.</p>
+            <p>The squared \(\ell_2\) norm sums the patchwise squared differences between the normalized maps; \(\mathcal{L}_{\mathrm{att}}\) adds these errors across layers \(n=1,\ldots,R\).</p>
             <p>Matching each layer's mean attention broadcasts the mined interaction pattern without requiring all individual heads to become identical.</p>
           </div>
         </article>
