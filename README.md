@@ -13,6 +13,8 @@
 
 <p align="center">
   <a href="https://yiyuan00.github.io/Lift-See-Act/">Project Page</a>
+  &nbsp;&nbsp;
+  <a href="https://arxiv.org/pdf/2611.20481">Paper</a>
 </p>
 
 <p align="center">
